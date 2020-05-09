@@ -1,4 +1,35 @@
+//制作素数表
 #include <stdio.h> 
+int isprime(int x);						//声明isprime函数
+int main()
+{
+	int maxnumber = 10;
+	int x,i,j;
+	int prime[maxnumber];
+	
+	for ( i=2; i<maxnumber; i++ ) {		//输出表头
+		printf("\t%d",i);
+	}
+	printf("\n");
+	for ( i=2; i<maxnumber; i++ ) {		//将prime[]所有元素初始化为1
+		prime[i] = 1;
+	}
+	printf("\n");						//输出表体的内容 
+	for ( i=2; i<maxnumber; i++ ) {
+		if (  isprime( i ) ) {			//判断i是否是素数 
+			for ( j= 2; i*j<maxnumber; j++ ) {		//将是素数的倍数的数组的值赋为0 
+				prime[i*j] = 0;
+			}
+			printf("%d",i);							//输出第一列的数 
+			for ( j=2; j<maxnumber; j++ ) {			//输出prime数组 
+				printf("\t%d",prime[j]) ;
+			}
+			printf("\n");
+		}
+	} 
+	
+	return 0;
+}
 int isprime(int x)
 {
 	int ret = 1;
@@ -13,45 +44,13 @@ int isprime(int x)
 	return ret ;
 }
 
-int main()
-{
-	int maxnumber = 10;
-	int x,i,j;
-	int prime[maxnumber];
-	
-	for ( i=2; i<maxnumber; i++ ) {
-		printf("\t%d",i);
-	}
-	printf("\n");
-	for ( i=2; i<maxnumber; i++ ) {
-		prime[i] = 1;
-	}
-/*	for ( i=2; i<maxnumber; i++ ) {
-		printf("\t%d",prime[i]) ;
-	}
-*/
-	printf("\n");
-	for ( i=2; i<maxnumber; i++ ) {
-		if (  isprime( i ) ) {
-			for ( j= 2; i*j<maxnumber; j++ ) {
-				prime[i*j] = 0;
-			}
-			//	输出表体的内容
-		//	for ( k=2; k<maxnumber; k++ ) {
-				printf("%d",i);
-					for ( j=2; j<maxnumber; j++ ) {
-						printf("\t%d",prime[j]) ;
-					}
-				printf("\n");
-	//		}
-		}
-	}
-	
-	return 0;
-}
-
 
 /*思路：在第一行输入1~x（以表头的形式）：使用for循环加\t实现
 		在第一列输出2，当行上的某一个数是2的倍数，将prime[i*2]的值都赋为0，之后再输出prime[]，以表格的形式：
 		进一步推广： 要实现第一行输出2~x，第一列输出2~x，在中间部分输出prime数组，要求prime数组中
+	对输出标题内容的分析：
+		首先第一层for循环，将i=2，是素数进入if循环，再次进入一个for循环，j=2，将prime[i*j]的值都赋为0，之后再输出prime
+	i*j<maxnumber不成立时，跳出for循环，(设初始化maxnumber为10，则第一次赋为0的数组有prime[4]、prime[6]、prime[8]因为数组是从prime[2]开始输出且表头的数也是从2开始输出，所以两者可以对应)
+	再执行下一条语句，输出第一列的第一个数2，之后再进入一次for循环，从prime[2]开始输出prime数组，执行完之后再执行下一条语句
+	换行跳出if循环，进入外层for循环的第二次循环。一直依次进行下去。
 */ 
