@@ -16,17 +16,23 @@ int main()
 	}
 	printf("\n");						//输出表体的内容 
 	for ( i=2; i<maxnumber; i++ ) {
+		printf("%d",i);					//输出第一列的数 
 		if (  isprime( i ) ) {			//判断i是否是素数 
 			for ( j= 2; i*j<maxnumber; j++ ) {		//将是素数的倍数的数组的值赋为0 
 				prime[i*j] = 0;
-			}
-			printf("%d",i);							//输出第一列的数 
-			for ( j=2; j<maxnumber; j++ ) {			//输出prime数组 
-				printf("\t%d",prime[j]) ;
-			}
-			printf("\n");
+			}									
 		}
+		for ( j=2; j<maxnumber; j++ ) {				//输出prime数组 
+			printf("\t%d",prime[j]) ;
+		}	
+		printf("\n");
 	} 
+	printf("\n%d内的素数有",maxnumber);
+	for ( i=2; i<maxnumber; i++ ) {
+		if ( prime[i] ) {
+			printf("\t%d",i);
+		}
+	}
 	
 	return 0;
 }
@@ -48,9 +54,67 @@ int isprime(int x)
 /*思路：在第一行输入1~x（以表头的形式）：使用for循环加\t实现
 		在第一列输出2，当行上的某一个数是2的倍数，将prime[i*2]的值都赋为0，之后再输出prime[]，以表格的形式：
 		进一步推广： 要实现第一行输出2~x，第一列输出2~x，在中间部分输出prime数组，要求prime数组中
-	对输出标题内容的分析：
+	对输出表体内容的分析：
 		首先第一层for循环，将i=2，是素数进入if循环，再次进入一个for循环，j=2，将prime[i*j]的值都赋为0，之后再输出prime
 	i*j<maxnumber不成立时，跳出for循环，(设初始化maxnumber为10，则第一次赋为0的数组有prime[4]、prime[6]、prime[8]因为数组是从prime[2]开始输出且表头的数也是从2开始输出，所以两者可以对应)
 	再执行下一条语句，输出第一列的第一个数2，之后再进入一次for循环，从prime[2]开始输出prime数组，执行完之后再执行下一条语句
 	换行跳出if循环，进入外层for循环的第二次循环。一直依次进行下去。
 */ 
+//第二种素数表
+#include <stdio.h>     
+int isPrime(int x, int knownPrimes[], int numberOfKnownPrimes);
+int main()
+{
+	const int number = 10;
+	int prime[number] = {2};
+	int count = 1;
+	int i = 3;
+	
+	{		//表头，表示存储素数的位置 
+		int i;
+		printf("\t\t");
+		for ( i=0; i<number; i++ ) {
+			printf("%d\t",i);
+		}
+		printf("\n");
+	}
+		
+	while ( count < number ) {
+		if ( isPrime(i,prime,count) ) {
+			prime[count++] = i;
+		}
+		
+	{		//调试时加大括号的作用：可以在里面定义自己的变量，而不会影响到外面的变量 
+			printf("i=%d \tcnt=%d\t",i,count);
+			int i;									//在定义i之前输出的i的值还是外面的i的值（C99） 
+			for ( i=0; i<number; i++ ) {
+				printf("%d\t",prime[i]);
+			}
+			printf("\n");
+	}
+	
+		i++;
+	}
+	for ( i=0; i<number; i++ ) {
+		printf("%d",prime[i]);
+		if ( (i+1)%5 ) printf("\t");
+		else printf("\n");
+	}
+	
+	return 0;
+}
+
+int isPrime(int x, int knownPrimes[], int numberOfKnownPrimes) 
+{
+	int ret = 1;
+	int i;
+	for ( i=0; i<numberOfKnownPrimes; i++ ) {
+		if ( x % knownPrimes[i] == 0 ) { 
+			ret = 0;
+			break;
+			} 
+	}
+	
+	return ret; 
+}
+
