@@ -1,0 +1,52 @@
+#include <stdio.h> 
+int isprime(int x)
+{
+	int ret = 1;
+	int i; 
+	
+	for ( i=2; i<x; i++ ) {
+		if ( x%i == 0) {
+			ret = 0;
+		}
+	}
+	
+	return ret ;
+}
+
+int main()
+{
+	int maxnumber = 10;
+	int x,i,j;
+	int prime[maxnumber];
+	
+	for ( i=2; i<maxnumber; i++ ) {
+		printf("\t%d",i);
+	}
+	printf("\n");
+	for ( i=2; i<maxnumber; i++ ) {
+		prime[i] = 1;
+	}
+/*	for ( i=2; i<maxnumber; i++ ) {
+		printf("\t%d",prime[i]) ;
+	}
+*/
+	printf("\n");
+	for ( i=4; i<maxnumber; i+=2 ) {
+		if ( i%2==0 ) {
+			prime[i] = 0;
+			}
+		}
+		
+	printf("2");
+	for ( j=2; j<maxnumber; j++ ) {
+		printf("\t%d",prime[j]) ;
+	}
+	
+	return 0;
+}
+
+
+/*思路：在第一行输入1~x（以表头的形式）：使用for循环加\t实现
+		在第一列输出2，当行上的某一个数是2的倍数，将prime[i*2]的值都赋为0，之后再输出prime[]，以表格的形式：
+		进一步推广： 
+*/ 
