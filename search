@@ -1,0 +1,59 @@
+//Search for a number in an unordered array
+//如何在一个无序数组中找到一个数？ 
+#include <stdio.h> 
+ 
+ int search(int key, int a[], int len)			//定义一个search函数 
+{
+	int ret = -1;								//为函数的输出申请一个变量，单一出口原则 
+	int left = 0;								//定义这组数据开头的变量为left 
+	int right = len-1;							//定义这个数组的最大范围为right 
+	while ( right >= left ) {
+		int mid = (left+right)/2;				//计算这个数组的下标的平均值 
+		if ( a[mid] == key ) {					//如果a[mid]的值等于要寻找的值key，则将mid赋给ret，这个函数再返回ret 
+			ret = mid;
+			break;
+		} else if ( a[mid] > key ) {			//如果a[mid]大于key，则舍弃>a[mid]的项，将right的值移至mid-1项 
+			right = mid -1;
+		} else {								//如果a[mid]小于key，则舍弃<a[mid]的项，将left的值移至mid+1项 
+			left = mid + 1;
+		}
+	}
+	return ret;
+}
+
+int max(int a[], int len)				//定义一个求max的函数 
+{
+	int maxid = 0;
+	for ( int i=1; i<len; i++ ) {		//遍历数组a[],找出存储max的数组的下标值 
+		if ( a[i] > a[maxid] ) {
+			maxid = i;
+		}
+	}
+	return maxid;						//将找到的下标值赋给maxid，再返回maxid的值 
+}
+
+int main()
+{
+	int i,x;
+	int a[] = {10,9,8,7,6,5,4,3,2,1};	//定义一个乱序的数组 
+	int len = sizeof(a)/sizeof(a[0]);	//使用sizeof(a)/sizeof(a[0])求这个数组的大小 
+	
+	for ( int i=len-1; i>0; i-- ) {		//使用for循环不断的将得到的最大值存储到数组a的最后一位，i每次减一，函数中的数组的大小就减少一，这样就实现了数组的顺序存储 
+		int maxid = max(a,i+1);			//将max函数返回的值赋给maxid 
+		int t = a[maxid];				//将a[maxid]中存储的最大值，放到a的最后一位 
+		a[maxid] = a[i];
+		a[i] = t;
+	}
+	printf("enter a number:");
+	scanf("%d",&i);						//输入要寻找的数据 
+	x = search(i,a,10);
+	printf("%d",x);
+	
+	return 0;
+}
+
+/*结论：排序函数和二分函数可以放在一起使用，但是这样使用同时带来了一个问题，如果你输入的是一个无序数组，想要在这个无序数组中
+找到一个值，首先使用排序函数排好序，在使用二分函数找到这个存储这个数的数组的下标值，但此时找到的下标并不是，你要找的数在无序
+数组中的位置，而是这个数在已经排好序的有序数组中的位置，
+*/ 
+ 
