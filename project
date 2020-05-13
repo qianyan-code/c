@@ -4,8 +4,9 @@
 #include <conio.h>
 void MGfunction();
 void desktop();
+void movefunction(int ,int ,int ,int );
 
-
+//游戏图像的定义
 char win[50][200]
 {
 	{"                                                                                                                        "},
@@ -128,17 +129,18 @@ char TXZface[50][100]
 	printf("#########################################################################\n");
 };
 */
-void desktop()
+//游戏函数的定义
+void desktop()									//定义主界面函数
 {
 	int i,j;
-//	system("mode con cols=20 lines=20");
+//	system("mode con cols=20 lines=20");		//可以设置显示框的大小
 	printf("1、汉诺塔\n");
 	printf("2、迷宫\n");
 	printf("3、推箱子\n");
 	
 
 	printf("choose your game!!!\n");
-	switch ( getch() )
+	switch ( getch() )							//使用switch函数实现选择游戏的过程
 	{
 		case'1':system("color 70");
 				system("mode con cols=150 lines=60");
@@ -147,12 +149,13 @@ void desktop()
 				}
 				break;
 		case'2':MGfunction();
+		case'3':TXZfunction();
 				break;
 	}
 
 }
 
-void MGfunction()
+void MGfunction()								//定义迷宫游戏
 {
 	int i,x,y,p,q;
 	char ch;
@@ -160,14 +163,31 @@ void MGfunction()
 	
 	MGface[23][95] = ' ';
 	MGface[19][41] = 'O';
- 	system("mode con cols=125 lines=50");
+ 	system("mode con cols=125 lines=50");		
 	for ( i=0; i<50; i++ )
 		puts(MGface[i]);
+	movefunction(x,y,p,q);
+	
+	system("cls");
+	for ( i=0; i<50; i++ ) {
+		puts(win[i]);
+	}
+//	Sleep(5000);								//在获胜界面暂停几秒，测试时可以不使用，正式使用时要使用
+	system("cls");
+	printf("按任意键继续：\n");
+	getch();
+	desktop();
+}
+
+void movefunction(int x,int y,int p,int q)		//定义游戏使用s、w、a、d进行移动
+{
+	int i,ch;
+	
 	while ( x!=p || y!=q ) {
 			ch = getch();
-		if ( ch == 's' ) {
-			if ( MGface[x+1][y]!='#' ) {
-				MGface[x][y] = ' ';
+		if ( ch == 's' ) {						//若键盘键入了一个s之后进入循环，
+			if ( MGface[x+1][y]!='#' ) {		//判断你的下面的位置是不是#，若是则不能移动，若不是则进入循环
+				MGface[x][y] = ' ';				//将你的位置变为空格，x++，将你的下面的位置变为你；以下类似
 				x++;
 				MGface[x][y] = 'O';
 			}
@@ -197,19 +217,9 @@ void MGfunction()
 			}
 		}
 		system("cls");
-		for ( i=0; i<50; i++ )
+		for ( i=0; i<50; i++ )					//输出移动后的图像，来实现移动（缺点：会出现闪屏的情况）
 			puts(MGface[i]);
 	}
-	
-	system("cls");
-	for ( i=0; i<50; i++ ) {
-		puts(win[i]);
-	}
-//	Sleep(5000);
-	system("cls");
-	printf("按任意键继续：\n");
-	getch();
-	desktop();
 }
 
 int main()
