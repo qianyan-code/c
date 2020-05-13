@@ -4,7 +4,7 @@
 #include <conio.h>
 void MGfunction();
 void desktop();
-void movefunction(int, int, int);
+
 
 char win[50][200]
 {
@@ -165,25 +165,7 @@ void MGfunction()
 		puts(MGface[i]);
 	while ( x!=p || y!=q ) {
 			ch = getch();
-		system("cls");
-		for ( i=0; i<50; i++ )
-			puts(MGface[i]);
-			movefunction(x,y,ch);
-	}
-	system("cls");
-	for ( i=0; i<50; i++ ) {
-		puts(win[i]);
-	}
-//	Sleep(5000);
-	system("cls");
-	printf("按任意键继续：\n");
-	getch();
-	desktop();
-}
-
-void movefunction(int x, int y, int ch)
-{
-	if ( ch == 's' ) {
+		if ( ch == 's' ) {
 			if ( MGface[x+1][y]!='#' ) {
 				MGface[x][y] = ' ';
 				x++;
@@ -214,6 +196,20 @@ void movefunction(int x, int y, int ch)
 				MGface[x][y] = 'O';
 			}
 		}
+		system("cls");
+		for ( i=0; i<50; i++ )
+			puts(MGface[i]);
+	}
+	
+	system("cls");
+	for ( i=0; i<50; i++ ) {
+		puts(win[i]);
+	}
+//	Sleep(5000);
+	system("cls");
+	printf("按任意键继续：\n");
+	getch();
+	desktop();
 }
 
 int main()
